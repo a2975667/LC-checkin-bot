@@ -57,10 +57,10 @@ client.on(Events.InteractionCreate, async interaction => {
       // console.log(storeResult);
 
       if (storeResult.success) {
-        await interaction.reply({ content: `Checkin 成功了!😊 \n ${storeResult.message}` });
+        await interaction.reply({ content: `Checkin 成功了! 😊 \n ${storeResult.message}` });
       } else {
         console.error(`Error storing interaction responses: ${storeResult.message}`);
-        await interaction.reply({ content: `Checkin 失敗了!🥲 \n ${storeResult.message}` });
+        await interaction.reply({ content: `Checkin 失敗了! 🥲 \n ${storeResult.message}` });
       }
     }
 
