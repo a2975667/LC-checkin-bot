@@ -41,7 +41,7 @@ client.once(Events.ClientReady, () => {
 
 client.on(Events.InteractionCreate, async interaction => {
 
-  console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an ${interaction.customId}.`);
+  // console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an ${interaction.customId}.`);
 
   if (interaction.isModalSubmit()) {
 
@@ -54,7 +54,7 @@ client.on(Events.InteractionCreate, async interaction => {
       // // Store the answers in MongoDB Atlas
       const storeResult = await storeMemberActivity(interaction.user, basicQuestionsResponse, bonusQuestionsResponse, diaryResponse);
 
-      console.log(storeResult);
+      // console.log(storeResult);
 
       if (storeResult.success) {
         await interaction.reply({ content: `Checkin 成功了!😊 \n ${storeResult.message}` });
