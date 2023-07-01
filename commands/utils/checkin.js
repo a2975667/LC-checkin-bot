@@ -17,10 +17,11 @@ module.exports = {
 		const date = new Date();
 		const userID = interaction.user.username;
 
-		const date_string = date.toLocaleDateString('en-US', {
+		const date_string = date.toLocaleString('en-US', {
+			timeZone: 'America/Chicago',
 			month: '2-digit',
 			day: '2-digit'
-		  });
+		});
 		const titleUserID = userID.length > 21 ? userID.substring(0, 21) + '...' : userID;
 
 		const modal = new ModalBuilder()
