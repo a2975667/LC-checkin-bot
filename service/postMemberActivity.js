@@ -4,6 +4,7 @@ const { mongodbUrl } = require('../config.json');
 const client = new MongoClient(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const storeMemberActivity = async (userid, basicQuestionsResponse, bonusQuestionsResponse, diaryResponse) => {
+  // console.log(userid)
   try {
     await client.connect();
 
@@ -15,11 +16,13 @@ const storeMemberActivity = async (userid, basicQuestionsResponse, bonusQuestion
     // check if the user is also stored in the user collection
     // TODO: this should be removed and checks should be done with a different command.
     const userCollection = database.collection('user');
-    const user = await userCollection.findOne({ memberId: userid.tag });
+    const user = await userCollection.findOne({ memberId: userid.id });
     // if not, store the user
     if (user === null) {
         const userRecord = {
-            memberId: userid.tag,
+            memberId: userid.id,
+            username: userid.username,
+            discriminator: userid.discriminator,
             team: 'none',
         }
         const result = await userCollection.insertOne(userRecord);
@@ -31,7 +34,7 @@ const storeMemberActivity = async (userid, basicQuestionsResponse, bonusQuestion
     }
 
     const activityRecord = {
-        memberId: userid.tag,
+        memberId: userid.id,
         date: date,
         basicQuestionsResponse: basicQuestionsResponse,
         bonusQuestionsResponse: bonusQuestionsResponse,
@@ -42,7 +45,7 @@ const storeMemberActivity = async (userid, basicQuestionsResponse, bonusQuestion
     const point = parseInt(bonusQuestionsResponse)*2 + parseInt(basicQuestionsResponse);
 
     if (result.acknowledged === true) {
-        message = `<@${userid.id}> 完成了 ${bonusQuestionsResponse} 題 medium/hard 和 ${basicQuestionsResponse} 其他題目. 獲得團隊積分 ${point} 分!\n 同時<@${userid.id}>還完成了: \n ${diaryResponse}. \n Nice work!🎉🎉🎉`
+        message = `<@${userid.id}> 完成了 ${bonusQuestionsResponse} 題 medium/hard 和 ${basicQuestionsResponse} 其他題目. 獲得團隊積分 ${point} 分!\n 同時<@${userid.id}>還完成了: \n ${diaryResponse}. \n Nice work! 🎉🎉🎉`
 
       return { success: true, message: message };
     } else {

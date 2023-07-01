@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, Guild } = require('discord.js');
 const { MongoClient } = require('mongodb');
 const storeMemberActivity = require('./service/postMemberActivity');
 const { token, mongodbUrl } = require('./config.json');
@@ -40,8 +40,18 @@ client.once(Events.ClientReady, () => {
 });
 
 client.on(Events.InteractionCreate, async interaction => {
+  
+  // this is the current script to get all user ids. 
+  // This should be something that is only avaliable in a specific channel
+  // .....    
+    // gid = interaction.guildId;
+    // const Guild = client.guilds.cache.get(gid); // Getting the guild.
+    // const members = await Guild.members.fetch()
+    // // for each member, print username and user id
+    // members.forEach(member => {
+    //   console.log(member.user.username, member.user.id);
+    // });
 
-  // console.log(`${interaction.user.tag} in #${interaction.channel.name} triggered an ${interaction.customId}.`);
 
   if (interaction.isModalSubmit()) {
 
