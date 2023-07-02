@@ -13,14 +13,16 @@ const storeMemberActivity = async (userid, basicQuestionsResponse, bonusQuestion
     const database = client.db('uiucleetcode4tw');
     const collection = database.collection('activity');
 
+    discordUserId = BigInt(userid.id)
+
     // check if the user is also stored in the user collection
     // TODO: this should be removed and checks should be done with a different command.
     const userCollection = database.collection('user');
-    const user = await userCollection.findOne({ memberId: userid.id });
+    const user = await userCollection.findOne({ memberId: discordUserId });
     // if not, store the user
     if (user === null) {
         const userRecord = {
-            memberId: userid.id,
+            memberId: discordUserId,
             username: userid.username,
             discriminator: userid.discriminator,
             team: 'none',
@@ -34,7 +36,7 @@ const storeMemberActivity = async (userid, basicQuestionsResponse, bonusQuestion
     }
 
     const activityRecord = {
-        memberId: userid.id,
+        memberId: discordUserId,
         date: date,
         basicQuestionsResponse: basicQuestionsResponse,
         bonusQuestionsResponse: bonusQuestionsResponse,
